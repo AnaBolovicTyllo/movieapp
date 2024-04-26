@@ -1,4 +1,4 @@
-package com.example.movieapp
+package com.example.movieapp.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -8,21 +8,23 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
-import com.example.movieapp.viewmodels.MainViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.movieapp.R
+import kotlinx.coroutines.delay
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewModel: MainViewModel
-    private fun initialize() {
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-    }
+    private val viewModel:SplashViewModel by viewModel()
    override fun onCreate(savedInstanceState: Bundle?) {
-       initialize()
        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+       enableEdgeToEdge()
 
        installSplashScreen().apply {
             setKeepOnScreenCondition {
+                viewModel.getFamousMovies()
+                viewModel.setViewModelReady()
                 !viewModel.isReady.value
             }
         }

@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -13,11 +16,13 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        buildFeatures.buildConfig = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -46,6 +51,13 @@ dependencies {
     implementation (libs.androidx.lifecycle.viewmodel)
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
     implementation (libs.androidx.lifecycle.livedata)
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation (libs.okhttp)
+    implementation (libs.okhttp.v493)
+    implementation ("io.insert-koin:koin-android:3.5.0")
+//    implementation ("io.insert-koin:koin-androidx-scope:3.5.0")
+//    implementation ("io.insert-koin:koin-androidx-viewmodel:3.5.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
