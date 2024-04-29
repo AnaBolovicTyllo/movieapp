@@ -2,19 +2,35 @@ package com.example.movieapp.models
 
 import com.google.gson.annotations.SerializedName
 
+// staviti var vs val
+
 data class Movie(
-    @SerializedName("adult")            var adult: Boolean?           = null,
-    @SerializedName("backdropPath")     var backdropPath: String?     = null,
-    @SerializedName("genreIds")         var genreIds: List<Int>       = listOf(),
-    @SerializedName("id")               var id: Int?                  = null,
-    @SerializedName("originalLanguage") var originalLanguage: String? = null,
-    @SerializedName("originalTitle")    var originalTitle: String?    = null,
-    @SerializedName("overview")         var overview: String?         = null,
-    @SerializedName("popularity")       var popularity: Double?       = null,
-    @SerializedName("posterPath")       var posterPath: String?       = null,
-    @SerializedName("releaseDate")      var releaseDate: String?      = null,
-    @SerializedName("title")            var title: String?            = null,
-    @SerializedName("video")            var video: Boolean?           = null,
-    @SerializedName("voteAverage")      var voteAverage: Double?      = null,
-    @SerializedName("voteCount")        var voteCount: Int?           = null
+    @SerializedName("adult")
+    val adult: Boolean? = null,
+    @SerializedName("backdropPath")
+    val backdropPath: String? = null,
+    @SerializedName("genreIds")
+    val genreIds: List<Int> = listOf(),
+    @SerializedName("id")
+    val id: Int? = null,
+    @SerializedName("originalLanguage")
+    val originalLanguage: String? = null,
+    @SerializedName("originalTitle")
+    val originalTitle: String? = null,
+    @SerializedName("overview")
+    val overview: String? = null,
+    @SerializedName("popularity")
+    val popularity: Double? = null,
+    @SerializedName("posterPath")
+    val posterPath: String? = null,
+    @SerializedName("releaseDate")
+    val releaseDate: String? = null,
+    @SerializedName("title")
+    val title: String? = null,
+    @SerializedName("video")
+    val video: Boolean? = null,
+    @SerializedName("voteAverage")
+    val voteAverage: Double? = null,
+    @SerializedName("voteCount")
+    val voteCount: Int? = null
 )

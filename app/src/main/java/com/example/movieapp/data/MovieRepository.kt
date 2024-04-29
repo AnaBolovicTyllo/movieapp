@@ -10,6 +10,10 @@ class MovieRepository (
 ) {
     private  val TAG = "GET POPULAR RESPONSE"
 
+
+    // pukao network poziv, nisi dobila nikakav response, i dobila sam praznu listu
+    // ako bi imali infoview dajemo mu  ova objasnjavanja
+    // List<Movie> ---> List<Movie>?
     suspend fun getPopular(page: Int = 1): List<Movie> {
         return localDataSource.getPopularByPage(page) ?: run {
             val response = remoteDataSource.getsPopular()
