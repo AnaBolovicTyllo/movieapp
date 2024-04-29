@@ -24,14 +24,6 @@ val appModule = module {
         "https://api.themoviedb.org/"
     }
     single {
-        Retrofit.Builder()
-            .baseUrl(get(qualifier = named("BASE_URL")) as String)
-            .client(get<OkHttpClient.Builder>().build())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(MovieRemoteDataSource::class.java)
-    }
-    single {
         OkHttpClient.Builder().apply {
             addInterceptor(
                 Interceptor { chain ->
@@ -42,6 +34,14 @@ val appModule = module {
                 }
             )
         }
+    }
+    single {
+        Retrofit.Builder()
+            .baseUrl(get(qualifier = named("BASE_URL")) as String)
+            .client(get<OkHttpClient.Builder>().build())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(MovieRemoteDataSource::class.java)
     }
     single {
         MovieRepository(get(), get())
