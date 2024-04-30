@@ -2,9 +2,7 @@ package com.example.movieapp.models
 
 import com.google.gson.annotations.SerializedName
 
-// staviti var vs val
-
-data class Movie(
+data class MovieDto(
     @SerializedName("adult")
     val adult: Boolean? = null,
     @SerializedName("backdropPath")

@@ -56,8 +56,7 @@ dependencies {
     implementation (libs.okhttp)
     implementation (libs.okhttp.v493)
     implementation ("io.insert-koin:koin-android:3.5.0")
-//    implementation ("io.insert-koin:koin-androidx-scope:3.5.0")
-//    implementation ("io.insert-koin:koin-androidx-viewmodel:3.5.0")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

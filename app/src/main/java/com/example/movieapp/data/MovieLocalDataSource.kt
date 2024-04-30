@@ -1,15 +1,15 @@
 package com.example.movieapp.data
 
-import com.example.movieapp.models.Movie
+import com.example.movieapp.models.MovieDto
 
 class MovieLocalDataSource {
-    private val movieCacheByPage = mutableMapOf<Int, List<Movie>>()
+    private val movieCacheByPage = mutableMapOf<Int, List<MovieDto>>()
 
-    fun getPopularByPage(pageNumber: Int = 1): List<Movie>? {
+    fun getPopular(pageNumber: Int = 1): List<MovieDto>? {
         return movieCacheByPage[pageNumber]?.toList()
     }
 
-    fun insertPopularByPage(pageNumber: Int = 1, movies: List<Movie>) {
+    fun insertPopular(pageNumber: Int = 1, movies: List<MovieDto>) {
         movieCacheByPage[pageNumber] = movies.toList()
     }
 }

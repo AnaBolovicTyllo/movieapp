@@ -4,7 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.data.MovieRepository
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
@@ -12,19 +16,15 @@ class MainViewModel(
     private val movieRepository: MovieRepository
 ): ViewModel() {
 
-    private val _isReady = MutableStateFlow(false)
-    val isReady = _isReady.asStateFlow()
+    private val _goToMainScreen = MutableSharedFlow<Unit>()
+    val goToMainScreen = _goToMainScreen.asSharedFlow()
 
-     fun getFamousMovies() {
+     fun loadData() {
         viewModelScope.launch {
             movieRepository.getPopular()
+            delay(3000L)
+            _goToMainScreen.emit(Unit)
         }
     }
 
-    fun setViewModelReady() {
-        viewModelScope.launch{
-            delay(3000)
-            _isReady.value = true
-        }
-    }
 }
