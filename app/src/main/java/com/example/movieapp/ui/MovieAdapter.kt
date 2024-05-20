@@ -1,4 +1,4 @@
 package com.example.movieapp.ui
 
-class MainViewModel {
+class MovieAdapter {
 }
