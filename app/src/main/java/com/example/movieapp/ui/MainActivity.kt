@@ -1,20 +1,18 @@
-package com.example.movieapp
+package com.example.movieapp.ui
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.data.MovieLocalDataSource
-import com.example.movieapp.data.MovieRepository
 import com.example.movieapp.databinding.ActivityMainBinding
-import com.example.movieapp.ui.MovieAdapter
-import com.example.movieapp.ui.SplashViewModel
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
-import org.koin.androidx.scope.activityScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -22,26 +20,30 @@ class MainActivity : AppCompatActivity() {
     private val adapter = MovieAdapter()
 
     private lateinit var binding: ActivityMainBinding
-    private val localDataSource: MovieLocalDataSource by inject()
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
+        lifecycleScope.launch {
+            viewModel.stateFlow.collect{ data ->
+                adapter.setPopularMovies(data)
+            }
+        }
         setupAdapter()
     }
 
     private fun setupAdapter() {
         binding.rvPopularMovies.adapter = adapter
-        binding.rvPopularMovies.layoutManager = LinearLayoutManager(this)
+        binding.rvPopularMovies.layoutManager =  GridLayoutManager(this, 3)
+
     }
 
     override fun onStart() {
         super.onStart()
-        runBlocking {
-            localDataSource.getPopular()?.let { adapter.setPopularMovies(it) }
-        }
 
     }
 }

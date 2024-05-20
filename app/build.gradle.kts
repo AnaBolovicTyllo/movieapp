@@ -6,6 +6,16 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
 
+buildscript {
+
+    repositories {
+
+        google()
+
+        mavenCentral()
+
+    }
+}
 android {
     namespace = "com.example.movieapp"
     compileSdk = 34
@@ -17,9 +27,13 @@ android {
         versionCode = 1
         versionName = "1.0"
         buildFeatures.buildConfig = true
+        //noinspection DataBindingWithoutKapt
+        buildFeatures.dataBinding = true
+        buildFeatures.viewBinding = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
 
     buildTypes {
 
@@ -56,7 +70,10 @@ dependencies {
     implementation (libs.okhttp)
     implementation (libs.okhttp.v493)
     implementation ("io.insert-koin:koin-android:3.5.0")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+//    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation ("androidx.recyclerview:recyclerview:1.0.0")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

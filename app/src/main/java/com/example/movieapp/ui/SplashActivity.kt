@@ -1,12 +1,15 @@
 package com.example.movieapp.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.Animation
+import android.view.animation.AnimationSet
+import android.view.animation.RotateAnimation
+import android.view.animation.ScaleAnimation
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -16,38 +19,43 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MainActivity : AppCompatActivity() {
-    private val viewModel:MainViewModel by viewModel()
-   override fun onCreate(savedInstanceState: Bundle?) {
-       super.onCreate(savedInstanceState)
-       enableEdgeToEdge()
-       setContentView(R.layout.activity_main)
+class SplashActivity : AppCompatActivity() {
+    private val viewModel: SplashViewModel by viewModel()
 
-//       lifecycleScope.launch {
-//           repeatOnLifecycle(Lifecycle.State.STARTED){
-//               viewModel.initSplashScreen.collect {
-//                    installSplashScreen()
-//               }
-//           }
-//       }
-       observeFlowSafely(viewModel.initSplashScreen){
-           // Radimo animaciju
-       }
+    @SuppressLint("MissingInflatedId")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_splash)
+        startAnimation()
 
-//       lifecycleScope.launch {
-//           repeatOnLifecycle(Lifecycle.State.STARTED){
-//               viewModel.goToMainScreen.collect {
-//                   // Idemo na sledeci ekran
-//               }
-//           }
-//       }
-       observeFlowSafely(viewModel.goToMainScreen){
-           // Idemo na drugi ekran
-       }
+        observeFlowSafely(viewModel.goToMainScreen) {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+    }
+
+    fun startAnimation() {
+        val imageView = findViewById<ImageView>(R.id.splashPopCorn)
+
+        val rotateAnimation = RotateAnimation(0f, 360f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f)
+        rotateAnimation.duration = 1000
+
+        val scaleAnimation = ScaleAnimation(1f, 1.2f, 1f, 1.2f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f)
+        scaleAnimation.duration = 1000
+
+        val animationSet = AnimationSet(true)
+        animationSet.addAnimation(rotateAnimation)
+        animationSet.addAnimation(scaleAnimation)
+
+        imageView.startAnimation(animationSet)
     }
 }
 
-fun <T> AppCompatActivity.observeFlowSafely(flow: Flow<T>, callback: (T) -> Unit){
+fun <T> AppCompatActivity.observeFlowSafely(flow: Flow<T>, callback: (T) -> Unit) {
     lifecycleScope.launch {
         repeatOnLifecycle(Lifecycle.State.STARTED) {
             flow.collect {
