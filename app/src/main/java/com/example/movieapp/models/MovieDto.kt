@@ -35,7 +35,7 @@ data class MovieDto(
     val voteCount: Int? = null
 )
 
-object MovieMapper{
+object MovieMapper {
     fun map(dto: MovieDto): MovieUi{
         return MovieUi(
             title = dto.title ?: "Unknown",

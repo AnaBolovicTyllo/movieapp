@@ -1,18 +1,11 @@
 package com.example.movieapp.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.movieapp.data.MovieLocalDataSource
 import com.example.movieapp.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -21,37 +14,47 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModel()
+    private var layoutManager = GridLayoutManager(this, 3)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-
-        lifecycleScope.launch {
-            viewModel.stateFlow.collect{ data ->
-                adapter.setPopularMovies(data)
-            }
-        }
+        observeData()
         setupAdapter()
     }
 
-    private fun setupAdapter() {
-        binding.rvPopularMovies.adapter = adapter
-        binding.rvPopularMovies.layoutManager =  GridLayoutManager(this, 3)
-
+    private fun observeData() {
+        lifecycleScope.launch {
+            viewModel.stateFlow.collect { data ->
+                adapter.add(data)
+            }
+        }
     }
 
-    override fun onStart() {
-        super.onStart()
+    private fun loadNextPage() {
+        viewModel.loadNextPage()
+    }
 
+    private fun setupAdapter() {
+        with(binding){
+            rvPopularMovies.adapter = adapter
+            rvPopularMovies.layoutManager = layoutManager
+            rvPopularMovies.addOnScrollListener(object :
+                EndlessRecyclerViewScrollListener(layoutManager) {
+                override fun loadMoreItems() {
+                    loadNextPage()
+                }
+
+                override fun isLastPage(): Boolean {
+                    return viewModel.isLastPage
+                }
+
+                override fun isLoading(): Boolean {
+                    return viewModel.isLoading
+                }
+            })
+        }
     }
 }
-
-/**
- * TODO:
- *  1. Kreirati MainViewModel koji ce u init bloku pokupiti filmove iz repozitorijuma
- *  2. Iste te filmove ces unutar ViewModel-a mapirati koristeci MovieMapper, time dobijas List<MovieUi>
- *  3. Tu listu ces emitoviati kroz StateFlow
- *  4. Kada Activity pokupi te potake, prosledjuje ih adapteru
- */
