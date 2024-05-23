@@ -9,7 +9,6 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -25,18 +24,12 @@ val appModule = module {
     viewModel {
         MainViewModel(get())
     }
-    single<String> (named("BASE_URL")) {
-        "https://api.themoviedb.org/"
-    }
-    single<String> (named("POSTER_BASE_URL")) {
-        "https://image.tmdb.org/t/p/w600_and_h900_bestv2"
-    }
     single {
         OkHttpClient.Builder().apply {
             addInterceptor(
                 Interceptor { chain ->
                     val builder = chain.request().newBuilder()
-                    builder.header("Authorization", "Bearer 76422ff67ea5c659115400f1f574c025")
+                    builder.header("Authorization", "Bearer "+ Constants.API_KEY)
                     builder.header("Content-Type", "application/json")
                     return@Interceptor chain.proceed(builder.build())
                 }
@@ -49,7 +42,7 @@ val appModule = module {
     }
     single {
         Retrofit.Builder()
-            .baseUrl(get(qualifier = named("BASE_URL")) as String)
+            .baseUrl(Constants.BASE_URL)
             .client(get<OkHttpClient.Builder>().build())
             .addConverterFactory(GsonConverterFactory.create())
             .build()

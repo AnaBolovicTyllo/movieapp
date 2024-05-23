@@ -33,10 +33,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadNextPage() {
-        viewModel.loadNextPage()
-    }
-
     private fun setupAdapter() {
         with(binding){
             rvPopularMovies.adapter = adapter
@@ -44,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             rvPopularMovies.addOnScrollListener(object :
                 EndlessRecyclerViewScrollListener(layoutManager) {
                 override fun loadMoreItems() {
-                    loadNextPage()
+                    viewModel.loadNextPage()
                 }
 
                 override fun isLastPage(): Boolean {

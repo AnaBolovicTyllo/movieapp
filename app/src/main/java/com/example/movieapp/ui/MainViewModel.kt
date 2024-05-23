@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -35,7 +36,9 @@ class MainViewModel(
             val list = movieRepository.loadPopularMovies(currentPage).map { movieDto ->
                 MovieMapper.map(movieDto)
             }
-            _stateFlow.emit(list)
+            _stateFlow.update {
+                it+list
+            }
 
             isLoading = false
         }
@@ -47,7 +50,9 @@ class MainViewModel(
             val movieDtos = movieRepository.loadPopularMovies(currentPage)
             val listOfPopular = movieDtos.map { movieDto -> MovieMapper.map(movieDto) }
             withContext(Dispatchers.Main) {
-                _stateFlow.emit(listOfPopular)
+                _stateFlow.update {
+                    it+listOfPopular
+                }
             }
         }
     }

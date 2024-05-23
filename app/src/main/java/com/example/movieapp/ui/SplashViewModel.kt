@@ -14,6 +14,7 @@ class SplashViewModel(
 
     private val _goToMainScreen = MutableSharedFlow<Unit>()
     val goToMainScreen = _goToMainScreen.asSharedFlow()
+    private val firstPage = 1
 
     init {
         loadData()
@@ -21,7 +22,7 @@ class SplashViewModel(
 
      private fun loadData() {
         viewModelScope.launch {
-            movieRepository.loadPopularMovies()
+            movieRepository.loadPopularMovies(firstPage)
             delay(1500L)
             _goToMainScreen.emit(Unit)
         }

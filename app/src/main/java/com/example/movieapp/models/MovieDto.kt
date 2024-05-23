@@ -3,36 +3,38 @@ package com.example.movieapp.models
 import android.util.Log
 import com.google.gson.annotations.SerializedName
 import java.math.RoundingMode
+import kotlin.math.pow
+import kotlin.math.roundToInt
 
 data class MovieDto(
     @SerializedName("adult")
-    val adult: Boolean? = null,
+    val adult: Boolean?,
     @SerializedName("backdrop_path")
-    val backdropPath: String? = null,
+    val backdropPath: String?,
     @SerializedName("genre_ids")
-    val genreIds: List<Int> = listOf(),
+    val genreIds: List<Int>,
     @SerializedName("id")
-    val id: Int? = null,
+    val id: Int?,
     @SerializedName("original_language")
-    val originalLanguage: String? = null,
+    val originalLanguage: String?,
     @SerializedName("original_title")
-    val originalTitle: String? = null,
+    val originalTitle: String?,
     @SerializedName("overview")
-    val overview: String? = null,
+    val overview: String?,
     @SerializedName("popularity")
-    val popularity: Double? = null,
+    val popularity: Double?,
     @SerializedName("poster_path")
-    val posterPath: String? = null,
+    val posterPath: String?,
     @SerializedName("release_date")
-    val releaseDate: String? = null,
+    val releaseDate: String?,
     @SerializedName("title")
-    val title: String? = null,
+    val title: String?,
     @SerializedName("video")
-    val video: Boolean? = null,
+    val video: Boolean?,
     @SerializedName("vote_average")
-    val voteAverage: Double? = null,
+    val voteAverage: Double?,
     @SerializedName("vote_count")
-    val voteCount: Int? = null
+    val voteCount: Int?
 )
 
 object MovieMapper {
@@ -40,7 +42,7 @@ object MovieMapper {
         return MovieUi(
             title = dto.title ?: "Unknown",
             posterPath = dto.posterPath,
-            voteAverage = dto.voteAverage?.times(10)?.toInt()?.toDouble()?.div(10)?.toBigDecimal()?.setScale(1, RoundingMode.DOWN)?.toDouble()
+            voteAverage = dto.voteAverage?.roundDecimal()
         )
     }
 }
@@ -50,3 +52,8 @@ data class MovieUi(
     val posterPath: String?,
     val voteAverage: Double?
 )
+
+private fun Double.roundDecimal(rounding: Int = 1): Double {
+    val rounding = 10f.pow(rounding)
+    return (this * rounding).roundToInt() / rounding.toDouble()
+}

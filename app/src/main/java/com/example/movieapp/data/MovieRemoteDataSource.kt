@@ -13,7 +13,7 @@ interface MovieRemoteDataSource {
         @Query("language")
         language: String = "en-US",
         @Query("page")
-        page: Int = 1,
+        page: Int,
         @Query("api_key")
         apiKey: String
     ): Response<MovieResponse>
