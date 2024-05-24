@@ -1,0 +1,38 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Proguard files
+/proguard/
+
+# Android Studio IDE files
+*.iml
+
+# Emulator files
+*.log
+
+# Generated files
+gen/
+
+# Crashlytics configuration file
+crashlytics.properties
+
+# Android Signing files
+.keystore
+
+# Configuration file for SonarQube
+sonar-report.properties
+
+
