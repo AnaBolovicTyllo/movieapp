@@ -3,6 +3,7 @@ package com.example.movieapp
 import com.example.movieapp.data.MovieLocalDataSource
 import com.example.movieapp.data.MovieRemoteDataSource
 import com.example.movieapp.data.MovieRepository
+import com.example.movieapp.ui.DetailsViewModel
 import com.example.movieapp.ui.MainViewModel
 import com.example.movieapp.ui.SplashViewModel
 import okhttp3.Interceptor
@@ -23,6 +24,9 @@ val appModule = module {
     }
     viewModel {
         MainViewModel(get())
+    }
+    viewModel {
+        DetailsViewModel(get())
     }
     single {
         OkHttpClient.Builder().apply {

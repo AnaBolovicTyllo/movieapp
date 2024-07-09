@@ -20,7 +20,12 @@ class MovieAdapter(): RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(popularMovies[position])
+        val movie = popularMovies[position]
+        holder.bind(movie)
+
+        holder.itemView.setOnClickListener {
+            onClickListener?.onClick(movie)
+        }
     }
 
     override fun getItemCount(): Int {

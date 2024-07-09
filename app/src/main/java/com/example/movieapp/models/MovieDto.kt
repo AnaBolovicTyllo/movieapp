@@ -42,7 +42,10 @@ object MovieMapper {
         return MovieUi(
             title = dto.title ?: "Unknown",
             posterPath = dto.posterPath,
-            voteAverage = dto.voteAverage?.roundDecimal()
+            voteAverage = dto.voteAverage?.roundDecimal(),
+            releaseDate = dto.releaseDate,
+            overview = dto.overview,
+            id = dto.id.toString()
         )
     }
 }
@@ -50,7 +53,10 @@ object MovieMapper {
 data class MovieUi(
     val title: String,
     val posterPath: String?,
-    val voteAverage: Double?
+    val voteAverage: Double?,
+    val releaseDate: String?,
+    val overview: String?,
+    val id: String?
 )
 
 private fun Double.roundDecimal(rounding: Int = 1): Double {

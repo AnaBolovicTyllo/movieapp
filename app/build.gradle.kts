@@ -75,6 +75,8 @@ dependencies {
     implementation ("androidx.recyclerview:recyclerview:1.0.0")
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    implementation ("com.google.android.exoplayer:exoplayer:2.15.1")
+    implementation ("com.google.android.material:material:1.6.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
